@@ -6,3 +6,5 @@ packages.linuxmint.com
 apt.pop-os.org
 archive.ubuntu.com
 ppa.launchpad.net
+cdn-fastly.deb.debian.org
+prod.debian.map.fastly.net
