@@ -8,3 +8,4 @@ archive.ubuntu.com
 ppa.launchpad.net
 cdn-fastly.deb.debian.org
 prod.debian.map.fastly.net
+security.debian.org
