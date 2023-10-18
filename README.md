@@ -66,7 +66,31 @@ The wildcard format shall be defined as per the below
   - If a wildcard is used, it should be the first character on the line.
   - Wildcards are not treated as matching null, e.g. `*.example.com` will match `a.example.com` but will not match `example.com`
   - Only simple domain wildcards will be accepted e.g. `*.example.com` not `*ww.example.com`
+##### Notes for Debian users
+deb.debian.org hosts no packages and does not resolve as lancache expects.
+From deb.debian.org
+```
+As of July 2022 the SRV record is
 
+_http._tcp.deb.debian.org.    IN      SRV     10 1 80 prod.debian.map.fastly.net.
+If you hit the server behind deb.debian.org directly, either because you use an older apt or because you use a HTTP proxy that does not support SRV records, your requests will get HTTP redirected to one of the CDN instances. If you want to avoid the redirects, you can pick one instance directly. For instance, this also works in your sources.list:
+deb http://cdn-fastly.deb.debian.org/debian stable main
+deb http://cdn-fastly.deb.debian.org/debian-security stable-security main
+deb http://cdn-fastly.deb.debian.org/debian-security-debug stable-security-debug main
+```
+Example:
+```
+deb http://cdn-fastly.deb.debian.org/debian/ bookworm main non-free-firmware
+deb-src http://cdn-fastly.deb.debian.org/debian/ bookworm main non-free-firmware
+
+deb http://cdn-fastly.deb.debian.org/debian-security bookworm-security main non-free-firmware
+deb-src http://cdn-fastly.deb.debian.org/debian-security bookworm-security main non-free-firmware
+
+# bookworm-updates, to get updates before a point release is made;
+# see https://www.debian.org/doc/manuals/debian-reference/ch02.en.html#_updates_and_backports
+deb http://cdn-fastly.deb.debian.org/debian/ bookworm-updates main non-free-firmware
+deb-src http://cdn-fastly.deb.debian.org/debian/ bookworm-updates main non-free-firmware
+```
 ##### Notes for Squid users
 
 If you are using these files within a squid dst_domain acl you will need to reformat the wildcard entries to be compliant with the squid acl format. The following regex should suffice `s/*\./\./` however latest versions of squid are very particular about duplicate domains. The scripts/create-squid.sh should help you out here!
